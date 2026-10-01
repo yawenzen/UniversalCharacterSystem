@@ -1,0 +1,167 @@
+{
+  "version": "2.0.0",
+  "name": "Universal Character System",
+  "description": "通用角色状态、数值、事件、抽卡与触发词整合配置。显示层与提示词层分离，适配 SillyTavern 正则脚本格式。",
+  "author": "yawenzen",
+  "format": "universal-character-system",
+  "dataFormat": {
+    "delimiter": ":",
+    "listDelimiter": "|",
+    "developmentDelimiter": "=",
+    "example": "title:角色名\naffection:50\nstatus:专注|疲惫"
+  },
+  "fieldSchema": {
+    "identity": {
+      "title": "角色名",
+      "subtitle": "一句简短介绍",
+      "label": "CHARACTER SYSTEM",
+      "avatar": "♡",
+      "identity": "身份或职业",
+      "intro": "角色简介",
+      "relationship": "与用户的关系",
+      "traits": "特征1|特征2|特征3",
+      "scene": "当前场景与动作",
+      "quote": "角色当前最想说的话",
+      "notes": "补充说明"
+    },
+    "coreStats": {
+      "emotion": "平静",
+      "emotion_val": 0,
+      "affection": 0,
+      "trust": 0,
+      "obedience": 0,
+      "desire": 0,
+      "development": 0,
+      "sensitivity": 0,
+      "purity": 100,
+      "depravity": 0
+    },
+    "details": {
+      "development_detail": "部位A=0|部位B=0",
+      "constitution": "",
+      "development_stage": "未开发"
+    },
+    "status": {
+      "arousal": "",
+      "physical": "",
+      "mental": "",
+      "injury": "",
+      "sensory": "",
+      "metabolism": "",
+      "trace": ""
+    },
+    "systems": {
+      "hypnosis_status": "关闭",
+      "hypnosis_mode": "",
+      "gacha_status": "关闭",
+      "gacha_mode": "普通抽卡",
+      "active_behavior": "",
+      "event_type": "",
+      "npc_type": "",
+      "special_day": "",
+      "round": 0,
+      "points": 0,
+      "pity": 0
+    }
+  },
+  "rules": {
+    "coreStats": {
+      "emotion_val": {"range": [-100, 100], "overflow": true, "display": "情绪名称（LV.数值）"},
+      "affection": {"range": [-100, 100], "unit": "%", "display": "❤️ 数值%（±变化）"},
+      "trust": {"range": [-100, 100], "unit": "%", "display": "数值%（±变化）"},
+      "obedience": {"range": [-100, 100], "unit": "%", "display": "数值%（±变化）"},
+      "desire": {"range": [0, 100], "unit": "%", "display": "数值%（等级）"},
+      "development": {"range": [0, 100], "unit": "%", "display": "总体开发度"},
+      "sensitivity": {"range": [0, 100], "display": "总体敏感度"},
+      "purity": {"range": [0, 100], "unit": "%", "display": "纯洁 X%"},
+      "depravity": {"range": [0, 100], "unit": "%", "display": "堕落 X%"}
+    },
+    "developmentStages": [
+      {"range": [0, 20], "name": "未开发", "reaction": "强烈抗拒，本能躲避"},
+      {"range": [21, 40], "name": "初步适应", "reaction": "接受轻微接触，仍然紧张"},
+      {"range": [41, 60], "name": "习惯化", "reaction": "基本习惯常规接触"},
+      {"range": [61, 80], "name": "高度开发", "reaction": "形成身体记忆，主动配合"},
+      {"range": [81, 100], "name": "极致觉醒", "reaction": "与情感中枢绑定，快痛边界模糊"}
+    ],
+    "statusCategories": {
+      "arousal": ["发情", "高潮", "渴望", "兴奋", "醉酒", "麻痹"],
+      "physical": ["疲惫", "饥饿", "口渴", "饱腹", "睡眠", "发烧", "寒冷"],
+      "mental": ["焦虑", "恐惧", "专注", "分心", "自信", "自卑", "抑郁", "悲观", "孤独感", "绝望", "自我厌恶", "羞耻", "愧疚", "解离", "偏执"],
+      "injury": ["轻伤", "重伤", "流血", "昏迷", "休克", "恶心", "眩晕"],
+      "sensory": ["耳鸣", "视物模糊", "触觉过敏", "瘙痒"],
+      "metabolism": ["脱水", "低血糖", "积食", "膀胱充盈", "肌肉酸痛"],
+      "trace": ["吻痕", "淤青", "不应期敏感", "性后疲劳", "乳酸堆积"]
+    },
+    "constitutions": {
+      "extreme": ["天生精力旺盛", "持续高敏", "失禁体质", "容器体质", "无限产乳", "特殊纹印体质"],
+      "special": ["储存体质", "共生体质", "共感绑定", "逆流吸收", "触手共生", "意识覆盖"],
+      "regular": ["高潮易感", "泪失禁", "潮红体质", "多高潮体质", "泛敏体质", "印记体质"]
+    },
+    "hypnosis": {
+      "modes": ["无意识服从", "有意识服从", "常识修改", "植入指令", "感官扭曲", "时间扭曲"],
+      "commands": ["开启催眠，XX·XX", "关闭催眠"]
+    },
+    "gacha": {
+      "qualities": [
+        {"name": "谪仙", "probability": 0.1, "pity": 500},
+        {"name": "神话", "probability": 0.5, "pity": 250},
+        {"name": "传说", "probability": 2, "pity": 120},
+        {"name": "典藏", "probability": 5, "pity": 50},
+        {"name": "史诗", "probability": 10},
+        {"name": "稀有", "probability": 20},
+        {"name": "普通", "probability": 30},
+        {"name": "劣质", "probability": 20},
+        {"name": "废品", "probability": 12.4}
+      ],
+      "commands": ["开启抽卡系统", "关闭抽卡系统", "单抽", "十连抽", "随机抽卡", "开启作弊"]
+    },
+    "randomEvents": {
+      "activeBehavior": {"perRoundProbability": 30, "guaranteeAfterRounds": 5, "types": ["主动开启话题", "主动提出要求", "主动制造惊喜", "主动表达负面感受", "主动创造氛围", "对话推拉"]},
+      "accident": {"perRoundProbability": 5, "types": ["第三方人物介入", "环境意外", "身体或状态突变", "信息或通信意外"]},
+      "npc": {"minimumRounds": 5, "maximumRounds": 8, "types": ["信息传递型", "制造障碍型", "诱惑或干扰型", "背景揭示型", "随机生活型"]}
+    },
+    "specialDates": ["白色情人节", "愚人节", "表白日", "儿童节", "七夕", "中元节", "重阳节", "万圣节", "平安夜", "圣诞节", "跨年夜", "元旦", "情人节", "农历新年"],
+    "triggerWords": ["查看{{char}}信息", "{{char}}内心独白", "开启催眠，XX·XX", "关闭催眠", "开启抽卡系统", "关闭抽卡系统", "开启作弊", "单抽", "十连抽", "随机抽卡"]
+  },
+  "regexScripts": [
+    {
+      "id": "universal-opening-display",
+      "scriptName": "通用 · 开场白显示",
+      "findRegex": "<opening>([\\s\\S]*?)<\\/opening>",
+      "replaceString": "```html\n<div style=\"font-family: sans-serif; padding: 16px; border: 1px solid #f2b6cf; border-radius: 16px; background: #fff8fb; color: #5d3550;\"><h2 id=\"title\">角色名</h2><p id=\"subtitle\"></p><blockquote id=\"quote\"></blockquote><p id=\"scene\"></p><p>情绪：<b id=\"emotion\"></b>　好感：<b id=\"affection\"></b>　信任：<b id=\"trust\"></b></p><div id=\"status\"></div></div><div id=\"source\" style=\"display:none\">$1</div><script>(function(){var t=document.getElementById('source').textContent,d={};t.split(/\\r?\\n/).forEach(function(x){var i=x.indexOf(':');if(i>0)d[x.slice(0,i).trim().toLowerCase()]=x.slice(i+1).trim()});function g(k,f){return d[k]||f}function q(k){return String(g(k,'')).replace(/[&<>\"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'})[c]})}document.getElementById('title').textContent=g('title','未命名角色');document.getElementById('subtitle').textContent=g('subtitle','');document.getElementById('quote').textContent=g('quote','');document.getElementById('scene').textContent=g('scene','');document.getElementById('emotion').textContent=g('emotion','平静')+'（'+g('emotion_val','0')+'）';document.getElementById('affection').textContent=g('affection','0')+'%';document.getElementById('trust').textContent=g('trust','0')+'%';document.getElementById('status').innerHTML=(g('status','无').split('|').map(function(x){return '<span style=\"display:inline-block;margin:3px;padding:4px 8px;border-radius:999px;background:#ffe5f0\">'+q(x.trim())+'</span>'}).join(''))})()</script>\n```",
+      "trimStrings": [],
+      "placement": [1, 2],
+      "disabled": false,
+      "markdownOnly": true,
+      "promptOnly": false,
+      "runOnEdit": false,
+      "substituteRegex": 0,
+      "minDepth": null,
+      "maxDepth": null
+    },
+    {
+      "id": "universal-system-tags-display",
+      "scriptName": "通用 · 系统标签隐藏",
+      "findRegex": "/<(initvar|opening|stats|status|profile|trigger|UpdateVariable|VariableUpdate|SystemUpdate|StateUpdate)>(?:[\\s\\S]*?<\\/\\1>|[\\s\\S]*$)/gi",
+      "replaceString": "",
+      "trimStrings": [],
+      "placement": [1, 2],
+      "disabled": false,
+      "markdownOnly": false,
+      "promptOnly": true,
+      "runOnEdit": true,
+      "substituteRegex": 0,
+      "minDepth": null,
+      "maxDepth": null
+    }
+  ],
+  "promptTemplate": "你是通用角色系统执行器。每轮回复前读取并遵守当前状态。\n\n【状态更新原则】\n1. 只在剧情、对话或明确触发词支持时修改状态。\n2. 数值变化应有原因；未发生变化时保持原值。\n3. 好感、信任、服从度允许负值；性欲、开发度、敏感区、纯洁、堕落按各自范围限制。\n4. 开发度按部位独立记录；敏感区按部位独立记录。\n5. 纯洁与堕落分别记录，不强制互为补数，除非当前设定明确要求。\n6. 主动行为每轮30%，连续5轮至少触发一次；意外事件每轮5%；NPC每5至8轮至少一次。\n7. 抽卡遵守概率与保底；作弊模式仅在明确输入“开启作弊”后生效。\n8. 催眠模式必须由明确触发词开启或关闭，不得默认启用。\n\n【输出要求】\n- 正常剧情输出不暴露内部推理。\n- 状态变更放在 <UpdateVariable> 或 <StateUpdate> 标签内。\n- 需要显示的内容放在 <opening>、<stats>、<status>、<profile> 标签内。\n- 显示层读取冒号字段，列表使用 | 分隔，部位开发度使用 部位=数值。\n- 系统标签由正则隐藏，不要把隐藏标签当作角色台词。\n\n【触发词】\n查看{{char}}信息；{{char}}内心独白；开启催眠，XX·XX；关闭催眠；开启抽卡系统；关闭抽卡系统；开启作弊；单抽；十连抽；随机抽卡。",
+  "samplePayload": "title:角色名\nsubtitle:一句简短介绍\nlabel:CHARACTER SYSTEM\navatar:♡\nemotion:平静\nemotion_val:0\naffection:0\ntrust:0\nobedience:0\ndesire:0\ndevelopment:0\nsensitivity:0\npurity:100\ndepravity:0\ndevelopment_stage:未开发\ndevelopment_detail:部位A=0|部位B=0\nconstitution:\nstatus:\narousal:\nphysical:\nmental:\ninjury:\nsensory:\nmetabolism:\ntrace:\nhypnosis_status:关闭\nhypnosis_mode:\ngacha_status:关闭\ngacha_mode:普通抽卡\nactive_behavior:\nevent_type:\nnpc_type:\nspecial_day:\nscene:当前场景\nquote:当前台词\nnotes:补充说明\nidentity:身份\nintro:角色简介\nrelationship:与用户的关系\ntraits:特征1|特征2|特征3",
+  "usage": [
+    "将本文件导入或复制到正则脚本配置中。",
+    "在角色提示词中使用 promptTemplate。",
+    "让模型按 samplePayload 格式输出显示字段。",
+    "如果原系统使用 <piupiu-opening>、<piupiu-ui> 或 <StatusPlaceHolderImpl />，请将对应 findRegex 替换为当前项目使用的标签。",
+    "建议先启用显示脚本，再按需启用抽卡、催眠、NPC和事件规则。"
+  ]
+}
